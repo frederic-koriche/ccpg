@@ -5,22 +5,20 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
-	cout << "hello world" << endl;
-
-	Dnnf dnnf("tire-3.nnf");
-	//cout << io::info("Dnnf") << endl << dnnf << endl;
-	//Counter<language::dnnf> counter(dnnf);
-	//cout << io::info("#models") << counter.count() << endl;
+	Dnnf dnnf("tire-1.nnf");
+	cout << io::info("Dnnf") << endl << dnnf << endl;
+	Counter<language::dnnf> counter(dnnf);
+	cout << io::info("#models") << counter.count() << endl;
 	//Sampler<language::dnnf> sampler(dnnf);
 	//cout << io::info("Ten Samples") << endl << sampler(10) << endl;
-	//UnivariateMarginalizer<language::dnnf> marginalizer(dnnf);
-	//cout << io::info("Marginalization") << endl << marginalizer() << endl;
-	//dvec objective(dnnf.n_literals(), arma::fill::ones);
-	//Optimizer<language::dnnf,query::min> optimizer(dnnf);
-	//cout << io::info("Optimization") << endl << optimizer(objective) << endl;
-	Environment<language::dnnf, feedback::full> env(dnnf,10,100);
+	// UnivariateMarginalizer<language::dnnf> marginalizer(dnnf);
+	// cout << io::info("Marginalization") << endl << marginalizer() << endl;
+	// dvec objective(dnnf.n_literals(), arma::fill::ones);
+	// Optimizer<language::dnnf,query::min> optimizer(dnnf);
+	// cout << io::info("Optimization") << endl << optimizer(objective) << endl;
+	Environment<language::dnnf, feedback::full> env(dnnf,1,100);
 	cout << io::info("Environment") << endl << env << endl;
-	Learner<language::dnnf, feedback::full, strategy::exp> learner(dnnf,env,100);
+	Learner<language::dnnf, feedback::full, strategy::fpl> learner(dnnf,env,100);
 	learner.learn();
 	//
 	// // Dnnf dnnf("aim-50-1_6-yes1-4.nnf");

@@ -19,6 +19,7 @@
 enum class strategy
 {
 	exp, 	// Expanded Exponentially weighted average forecaster
+	fpl,	// Follow the Perturbed Leader
 	l2, 	// Online mirror descent forecaster with l2 regularizer (sgd)
 	poly, 	// Online mirror descent forecaster with poly regularizer (linpoly)
 	ure 	// Online mirror descent forecaster with ure regularizer (linexp)
@@ -31,6 +32,7 @@ enum class strategy
 template<language L, feedback F, strategy S>class Learner;
 
 #include "ml/learner_full_exp__.hpp"
+#include "ml/learner_full_fpl__.hpp"
 // #include "ml/learner_semibandit_exp__.hpp"
 // #include "ml/learner_semibandit_l2__.hpp"
 // #include "ml/learner_semibandit_ure__.hpp"

@@ -146,7 +146,10 @@ bool load_nnf_file(Circuit<L>& circuit, const std::string& dataset_name)
 	std::string filename = "./dat/" + dataset_name;
 	std::ifstream file;
 	if(!io::check_open(file, filename))
+	{
+		cerr << io::error("cannot open " + filename) << endl;
 		return 0;
+	}
 	file.exceptions(std::ifstream::badbit);
 
 	try

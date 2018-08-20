@@ -6,8 +6,6 @@
 #ifndef ENVIRONMENT_FULL__
 #define ENVIRONMENT_FULL__
 
-#include "../fn/vec_ops__.hpp"
-
 // -----------------------------------------------------------------------------
 // Class Environment<feedback::full>
 // Trials start from 1
@@ -55,31 +53,16 @@ class Environment<L, feedback::full>
 
 		inline void set_objectives()
 		{
-
 			Sampler<language::dnnf> sample(circuit__);
-			dvec assignment = sample();
-			dvec objective = flip(assignment);
-			mte generator;
-			generator.seed(std::random_device()());
-			for(uword i = 0; i < n_objectives__; ++i)
-			{
-				double n_swaps = (double) n_variables__ / 10.0;
-				if(n_swaps < 1.0) n_swaps = 1.0;
-				for(uword j = 0; j < n_swaps; ++j)
-					{
-						std::uniform_int_distribution<mte::result_type> dist(0, n_variables__ - 1);
-						uword x = dist(generator);
-						std::swap(assignment[2 * x], assignment[(2 * x) + 1]);
-					}
-				objectives__.col(i) = flip(assignment);
-			}
+			dmat assignments = sample(n_objectives__);
+			dmat ones(n_literals__,n_objectives__,arma::fill::ones);
+			objectives__ = ones - assignments;
 		}
 
 		inline void set_target()
 		{
 			dvec avg_objective = arma::sum(objectives__, 1);
 			avg_objective /= n_objectives__;
-
 			Optimizer<language::dnnf,query::min> optimizer(circuit__);
 			target__ = optimizer(avg_objective);
 		}
