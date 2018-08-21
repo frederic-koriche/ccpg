@@ -9,7 +9,7 @@
 #define LEARNER
 
 #include "environment.hpp"
-//#include "projector.hpp"
+#include "projector.hpp"
 
 // -----------------------------------------------------------------------------
 // Enum classes
@@ -33,6 +33,7 @@ template<language L, feedback F, strategy S>class Learner;
 
 #include "ml/learner_full_exp__.hpp"
 #include "ml/learner_full_fpl__.hpp"
+#include "ml/learner_full_l2__.hpp"
 // #include "ml/learner_semibandit_exp__.hpp"
 // #include "ml/learner_semibandit_l2__.hpp"
 // #include "ml/learner_semibandit_ure__.hpp"
