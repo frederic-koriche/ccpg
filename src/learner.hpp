@@ -8,36 +8,27 @@
 #ifndef LEARNER
 #define LEARNER
 
-#include "environment.hpp"
-#include "projector.hpp"
+#include "reasoner.hpp"
 
-// -----------------------------------------------------------------------------
-// Enum classes
-// -----------------------------------------------------------------------------
+template<circuit_t C, environment_t E> class Environment;
+template<circuit_t C, algorithm_t A, environment_t E> class Learner;
+template<circuit_t C, algorithm_t A, distance_t D> class Projector;
+template<distance_t D> class Regularizer;
 
-// Forecasting strategy
-enum class strategy
-{
-	exp, 	// Expanded Exponentially weighted average forecaster
-	fpl,	// Follow the Perturbed Leader
-	l2, 	// Online mirror descent forecaster with l2 regularizer (sgd)
-	poly, 	// Online mirror descent forecaster with poly regularizer (linpoly)
-	ure 	// Online mirror descent forecaster with ure regularizer (linexp)
-};
-
-// -----------------------------------------------------------------------------
-// Classes
-// -----------------------------------------------------------------------------
-
-template<language L, feedback F, strategy S>class Learner;
-
-#include "ml/learner_full_exp__.hpp"
-#include "ml/learner_full_fpl__.hpp"
-#include "ml/learner_full_l2__.hpp"
+#include "ml/environment_full__.hpp"
+// #include "ml/environment_semibandit__.hpp"
+// #include "ml/environment_bandit__.hpp"
+#include "ml/regularizer_l2__.hpp"
+#include "ml/regularizer_ure__.hpp"
+#include "ml/projector_pcg__.hpp"
+#include "ml/learner_expexp_full__.hpp"
+#include "ml/learner_fpl_full__.hpp"
+#include "ml/learner_sgd_full__.hpp"
+// #include "ml/learner_full_l2__.hpp"
 // #include "ml/learner_semibandit_exp__.hpp"
 // #include "ml/learner_semibandit_l2__.hpp"
 // #include "ml/learner_semibandit_ure__.hpp"
 // #include "ml/learner_bandit_exp__.hpp"
 //#include "ml/learner_bandit_lin__.hpp"
 
-#endif // ifndef LEARNER
+#endif

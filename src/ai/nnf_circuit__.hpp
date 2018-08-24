@@ -6,29 +6,29 @@
 #ifndef NNF_CIRCUIT__
 #define NNF_CIRCUIT__
 
-#include "nnf_print__.hpp"
 #include "nnf_literal__.hpp"
 #include "nnf_node__.hpp"
+#include "nnf_print__.hpp"
 #include "../fn/mat_find__.hpp"
 
 // -----------------------------------------------------------------------------
-// Class Circuit<language::nnf>
+// Class Circuit<NNF>
 // Negation Normal Form Circuit
 // Attributes range from 0 to d-1 (minus one from convention to .cnf and .nnf)
 // The number of literals is 2d i.e. 2 lit per var
 // -----------------------------------------------------------------------------
 
 template<>
-class Circuit<language::nnf>
+class Circuit<NNF>
 {
 	public:                 // Traits
-		using NnfEdges = HashMap<uvec>;
-		using NnfNodes = Array<NnfNode>;
+		using EdgeLabels = HashMap<uvec>;
+		using NodeLabels = Array<Node>;
 
 	protected:              // Attributes
 		sp_umat adjacency_matrix__;
-		NnfEdges edge_labels__;
-		NnfNodes node_labels__;
+		EdgeLabels edge_labels__;
+		NodeLabels node_labels__;
 		uword n_variables__;
 
 	public:                 // Constructors and destructor
@@ -43,7 +43,7 @@ class Circuit<language::nnf>
 		inline Circuit(uword n_nodes, uword n_variables) :
 			adjacency_matrix__(n_nodes, n_nodes),
 			edge_labels__(),
-			node_labels__(n_nodes, NnfNode()),
+			node_labels__(n_nodes, Node()),
 			n_variables__(n_variables)
 		{
 		}
@@ -69,7 +69,7 @@ class Circuit<language::nnf>
 			return edge_labels__.at((parent * n_nodes()) + child);
 		}
 
-		inline const NnfEdges& edge_labels() const
+		inline const EdgeLabels& edge_labels() const
 		{
 			return edge_labels__;
 		}
@@ -104,12 +104,12 @@ class Circuit<language::nnf>
 			return n_variables__;
 		}
 
-		inline const NnfNode& node_label(uword index) const
+		inline const Node& node_label(uword index) const
 		{
 			return node_labels__[index];
 		}
 
-		inline const NnfNodes& node_labels() const
+		inline const NodeLabels& node_labels() const
 		{
 			return node_labels__;
 		}
@@ -141,23 +141,23 @@ class Circuit<language::nnf>
 			return edge_labels__.at((parent * n_nodes()) + child);
 		}
 
-		inline NnfEdges& edge_labels()
+		inline EdgeLabels& edge_labels()
 		{
 			return edge_labels__;
 		}
 
-		inline NnfNode& node_label(uword index)
+		inline Node& node_label(uword index)
 		{
 			return node_labels__[index];
 		}
 
-		inline NnfNodes& node_labels()
+		inline NodeLabels& node_labels()
 		{
 			return node_labels__;
 		}
 
 	public:                 // IO
-		friend ostream & operator <<(ostream & output, const Circuit<language::nnf>& circuit)
+		friend ostream & operator <<(ostream & output, const Circuit<NNF>& circuit)
 		{
 			print(output, circuit);
 			return output;

@@ -89,8 +89,8 @@ class Learner<L, feedback::semibandit, strategy::exp>
 				cout << io::info("Updating hyperparameters") << trial << " [eta]: " << eta << " [gamma]: " << gamma << endl;
 
 				// Sample a model
-				dvec model = sample(conv_to<query::ct>::from(uniform), conv_to<query::ct>::from(distribution), gamma);
-				//dvec model = sample(conv_to<query::ct>::from(distribution));
+				dvec model = sample(conv_to<Ct>::from(uniform), conv_to<Ct>::from(distribution), gamma);
+				//dvec model = sample(conv_to<Ct>::from(distribution));
 				//cout << io::info("Sampling model") << trial << endl << model << endl;
 
 				// Get response
@@ -100,7 +100,7 @@ class Learner<L, feedback::semibandit, strategy::exp>
 				cout << io::info("Cost") << trial << " [cost]: " << arma::dot(cost, model) << endl;
 
 				// Update cumulative loss
-				dvec marginals = marginalize(conv_to<query::ct>::from(distribution));
+				dvec marginals = marginalize(conv_to<Ct>::from(distribution));
 				update_loss(cumloss, cost, marginals, model);
 				//cout << io::info("Updating loss function") << trial << endl << cumloss << endl;
 

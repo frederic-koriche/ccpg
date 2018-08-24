@@ -7,15 +7,15 @@
 #define ENVIRONMENT_FULL__
 
 // -----------------------------------------------------------------------------
-// Class Environment<feedback::full>
+// Class Environment<FULL>
 // Trials start from 1
 // -----------------------------------------------------------------------------
 
-template<language L>
-class Environment<L, feedback::full>
+template<circuit_t C>
+class Environment<C,FULL>
 {
 	protected:              // Attributes
-		const Circuit<L>& circuit__;
+		const Circuit<C>& circuit__;
 		const uword n_literals__;
 		const uword n_objectives__;
 		const uword n_trials__;
@@ -24,9 +24,7 @@ class Environment<L, feedback::full>
 		dvec target__;
 
 	public:                 // Constructors & Destructor
-		Environment(const Circuit<L>& circuit,
-		            const uword n_objectives,
-		            const uword n_trials) :
+		Environment(const Circuit<C>& circuit, const uword n_objectives, const uword n_trials) :
 			circuit__(circuit),
 			n_literals__(circuit.n_literals()),
 			n_objectives__(n_objectives),
@@ -53,7 +51,7 @@ class Environment<L, feedback::full>
 
 		inline void set_objectives()
 		{
-			Sampler<language::dnnf> sample(circuit__);
+			Sampler<C> sample(circuit__);
 			dmat assignments = sample(n_objectives__);
 			dmat ones(n_literals__,n_objectives__,arma::fill::ones);
 			objectives__ = ones - assignments;
@@ -63,8 +61,8 @@ class Environment<L, feedback::full>
 		{
 			dvec avg_objective = arma::sum(objectives__, 1);
 			avg_objective /= n_objectives__;
-			Optimizer<language::dnnf,query::min> optimizer(circuit__);
-			target__ = optimizer(avg_objective);
+			Minimizer<C> minimizer(circuit__);
+			target__ = minimizer(avg_objective);
 		}
 
 
@@ -89,7 +87,7 @@ class Environment<L, feedback::full>
 		}
 
 	public:
-		friend ostream & operator <<(ostream & output, const Environment<L,feedback::full>& env)
+		friend ostream & operator <<(ostream & output, const Environment<C,FULL>& env)
 		{
 			cout << io::subsection("Environment objectives") << endl << env.objectives__ << endl;
 			cout << io::subsection("Environment target") << endl << env.target__ << endl;

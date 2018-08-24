@@ -3,34 +3,35 @@
 // projector_pcg__.hpp
 // -----------------------------------------------------------------------------
 
-#ifndef ML_PROJECTOR_PCG__
-#define ML_PROJECTOR_PCG__
-
-#include "grad_ops__.hpp"
+#ifndef PROJECtOR_PCG__
+#define PROJECtOR_PCG__
 
 // -----------------------------------------------------------------------------
-// Projector<language L, regularizer R, policy::pcg>
+// Projector__<circuit_t C, PCG, distance_t D>
 // PCG: Pairwise Conditional gradient
-// PCG-based Bregman projector subject to to NNF constraint
+// PCG-based Bregman projector subject to NNF constraint
 // -----------------------------------------------------------------------------
 
-template<language L, regularizer R>
-class Projector<L,R,policy::pcg>
+template<circuit_t C, distance_t D>
+class Projector<C,PCG,D>
 {
 	protected:
 		// Attributes
-		const Circuit<L>& circuit__;
-		const double shift__;
+		const Circuit<C>& circuit__;
+		const Regularizer<D>& regularizer__;
+		const uword max_trials__;
 		const uword n_line_steps__;
 		const uword n_literals__;
 
 	public:
 		// Constructors & Destructor
-		Projector(const Circuit<L>&circuit,
-					const double& shift,
-		            uword n_line_steps):
+		Projector(const Circuit<C>& circuit,
+		          const Regularizer<D>& regularizer,
+		          uword max_trials=std::numeric_limits<uword>::infinity(),
+		          uword n_line_steps=10) :
 			circuit__(circuit),
-			shift__(shift),
+			regularizer__(regularizer),
+			max_trials__(max_trials),
 			n_line_steps__(n_line_steps),
 			n_literals__(circuit.n_literals())
 		{
@@ -67,16 +68,6 @@ class Projector<L,R,policy::pcg>
 			return (uword)(a * b);
 		}
 
-		inline uword estimate(const double& accuracy, traits::l2)
-		{
-			return estimate(accuracy, 1.0, 1.0);
-		}
-
-		inline uword estimate(const double& accuracy, traits::ure)
-		{
-			return estimate(accuracy, 1.0 / (1.0 + shift__), 1.0 / shift__);
-		}
-
 		// Bregman decomposition
 		inline dvec decompose(const dvec& distribution, const dmat& assignments)
 		{
@@ -85,29 +76,6 @@ class Projector<L,R,policy::pcg>
 			std::discrete_distribution<int> discrete(distribution.begin(),distribution.end());
 			uword index = (uword) discrete(generator);
 			return assignments.col(index);
-		}
-
-		// Gradient evaluation (L2)
-		inline dvec gradient(const dvec& assignment,
-		                     const dvec& weights,
-		                     traits::l2)
-		{
-		     return assignment - weights;
-		}
-
-		// Gradient evaluation (URE)
-		inline dvec gradient(const dvec& assignment,
-		                     const dvec& weights,
-		                     traits::ure)
-		{
-		     dvec grad(assignment.n_elem);
-		     for(uword x = 0; x < grad.n_elem; x++)
-		     {
-		             double v = assignment[x] + shift__;
-		             double w = weights[x] + shift__;
-		             grad[x] = log(v / w);
-		     }
-		     return grad;
 		}
 
 		// Find stepsize via line search
@@ -133,18 +101,18 @@ class Projector<L,R,policy::pcg>
 		// Bregman projection
 		void project(dvec& distribution, dmat& assignments, const dvec& weights, const uword n_trials)
 		{
-			Sampler<L> sample(circuit__);
+			Sampler<C> sample(circuit__);
 			dvec point = sample();
 			//cout << io::info("initial point") << endl << point << endl;
 			assignments.col(0) = point;
 			distribution[0] = 1.0;
 
-			Optimizer<L,query::min> minimizer(circuit__);
+			Minimizer<C> minimizer(circuit__);
 
 			//cout << io::info("Projection") << endl;
 			for(uword trial = 1; trial < n_trials; trial++)
 			{
-				dvec grad = gradient(point, weights, traits::to_regularizer<R>());
+				dvec grad = regularizer__.gradient(point, weights);
 				//cout << io::info("gradient") << trial << endl << grad << endl;
 
 				dvec fw_assignment = minimizer(grad);
@@ -171,7 +139,11 @@ class Projector<L,R,policy::pcg>
 	public:
 		inline dvec operator()(const dvec& weights, const double& accuracy)
 		{
-			uword n_trials = estimate(accuracy, traits::to_regularizer<R>());
+			uword n_trials = estimate(accuracy, regularizer__.alpha(), regularizer__.beta());
+			if(n_trials == 0) n_trials = 1;
+			if(n_trials > max_trials__) n_trials = max_trials__;
+			cout << io::info("estimate trials") << n_trials << endl;
+
 			dvec distribution(n_trials, arma::fill::zeros);
 			dmat assignments(n_literals__, n_trials, arma::fill::zeros);
 

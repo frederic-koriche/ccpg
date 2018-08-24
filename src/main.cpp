@@ -1,32 +1,45 @@
 #include "learner.hpp"
 
 //using namespace arma;
-using namespace std;
+//using namespace std;
 
 int main(int argc, char **argv)
 {
-	Dnnf dnnf("tire-1.nnf");
-	cout << io::info("Dnnf") << endl << dnnf << endl;
-	Counter<language::dnnf> counter(dnnf);
+	Circuit<DNNF> dnnf("test_01.nnf");
+	cout << io::info("Circuit<DNNF>") << endl << dnnf << endl;
+	Counter<DNNF> counter(dnnf);
 	cout << io::info("#models") << counter.count() << endl;
-	//Sampler<language::dnnf> sampler(dnnf);
+	Environment<DNNF,FULL> env(dnnf,1,100);
+	cout << io::info("Environment") << endl << env << endl;
+	Learner<DNNF,SGD,FULL> sgd(dnnf,env,100);
+	sgd.learn();
+	Learner<DNNF,EXPEXP,FULL> hedge(dnnf,env,100);
+	hedge.learn();
+
+	// Regularizer<URE> reg(0.1);
+	// Projector<DNNF,PCG,URE> project(dnnf,reg,50);
+	// dvec distribution(dnnf.n_literals(), arma::fill::ones);
+	// double epsilon = 0.1;
+	// dvec prediction = project(distribution, epsilon);
+	// cout << io::info("Prediction") << endl << prediction << endl;
+	//Sampler<DNNF> sampler(dnnf);
 	//cout << io::info("Ten Samples") << endl << sampler(10) << endl;
-	// UnivariateMarginalizer<language::dnnf> marginalizer(dnnf);
+	// UnivariateMarginalizer<DNNF> marginalizer(dnnf);
 	// cout << io::info("Marginalization") << endl << marginalizer() << endl;
 	// dvec objective(dnnf.n_literals(), arma::fill::ones);
-	// Optimizer<language::dnnf,query::min> optimizer(dnnf);
+	// Optimizer<DNNF,Min> optimizer(dnnf);
 	// cout << io::info("Optimization") << endl << optimizer(objective) << endl;
-	Environment<language::dnnf, feedback::full> env(dnnf,1,100);
-	cout << io::info("Environment") << endl << env << endl;
-	Learner<language::dnnf, feedback::full, strategy::fpl> learner(dnnf,env,100);
-	learner.learn();
+	// Environment<DNNF, feedback::full> env(dnnf,1,100);
+	// cout << io::info("Environment") << endl << env << endl;
+	// Learner<DNNF, feedback::full, strategy::fpl> learner(dnnf,env,100);
+	// learner.learn();
 	//
-	// // Dnnf dnnf("aim-50-1_6-yes1-4.nnf");
-	// //Dnnf dnnf("test_03.nnf");
-	// // Environment<language::dnnf,feedback::semibandit> env(dnnf);
+	// // Circuit<DNNF> dnnf("aim-50-1_6-yes1-4.nnf");
+	// //Circuit<DNNF> dnnf("test_03.nnf");
+	// // Environment<DNNF,feedback::semibandit> env(dnnf);
 	// //
 	// // cout << io::title("Bandit learning with exp") << endl;
-	// // Learner<language::dnnf,feedback::semibandit,strategy::ure> learner(dnnf, env, 1000);
+	// // Learner<DNNF,feedback::semibandit,strategy::ure> learner(dnnf, env, 1000);
 	// // learner.learn();
 	//
 	// // Sdd sdd("sat-grid-pbl-0010.sdd");
@@ -35,6 +48,6 @@ int main(int argc, char **argv)
 	// // cout << Msg("Sdd") << endl << sdd << endl;
 	// // Counter<language::sdd> c2(sdd);
 	// // cout << Msg("Counting") << c2.count() << endl;
-	// // DnnfSampler sampler(m);
+	// // Circuit<DNNF>Sampler sampler(m);
 	// // cout << Msg("Counting") << endl << sampler.sample(10) << endl;
 }

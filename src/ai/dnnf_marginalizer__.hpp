@@ -9,16 +9,16 @@
 #include "dnnf_counter__.hpp"
 
 // -----------------------------------------------------------------------------
-// Class Marginalizer<language::dnnf,1>
+// Class Marginalizer<DNNF,1>
 // Computes the univariate distribution (literal probabilities) for the dDNNF
 // Literals weights: even index (positive literal) odd index (negative literal)
 // -----------------------------------------------------------------------------
 
 template<>
-class Marginalizer<language::dnnf,1> final : public Counter__<language::dnnf>
+class Marginalizer<DNNF,1> final : public Counter__<DNNF>
 {
 	public:                 // Traits
-		using base_type = Counter__<language::dnnf>;
+		using base_type = Counter__<DNNF>;
 
 	protected:              // Attributes
 		using base_type::circuit__;
@@ -27,7 +27,7 @@ class Marginalizer<language::dnnf,1> final : public Counter__<language::dnnf>
 		using base_type::n_variables__;
 
 	public:                 // Constructors & Destructor
-		Marginalizer(const Dnnf& circuit) :
+		Marginalizer(const Circuit<DNNF>& circuit) :
 			base_type(circuit)
 		{
 		}

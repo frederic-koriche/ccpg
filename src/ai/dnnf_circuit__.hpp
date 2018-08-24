@@ -10,16 +10,16 @@
 #include "dnnf_load__.hpp"
 
 // -----------------------------------------------------------------------------
-// Class Circuit<language::dnnf>
+// Class Circuit<DNNF>
 // (deterministic) Decomposable Negation Normal Form circuit
 // Attributes range from 0 to n-1 (minus 1 from .cnf and .nnf formats)
 // -----------------------------------------------------------------------------
 
 template<>
-class Circuit<language::dnnf>: public Circuit<language::nnf>
+class Circuit<DNNF>: public Circuit<NNF>
 {
 	public:                 // Traits
-		using base_type = Circuit<language::nnf>;
+		using base_type = Circuit<NNF>;
 
 	protected:              // Attributes
 		using base_type::adjacency_matrix__;
@@ -46,7 +46,7 @@ class Circuit<language::dnnf>: public Circuit<language::nnf>
 		}
 
 	public:                 // IO
-		friend ostream & operator <<(ostream & output, const Circuit<language::dnnf>& circuit)
+		friend ostream & operator <<(ostream & output, const Circuit<DNNF>& circuit)
 		{
 			print(output, circuit);
 			return output;

@@ -9,16 +9,16 @@
 #include "dnnf_engine__.hpp"
 
 // -----------------------------------------------------------------------------
-// Abstract class Counter__<language::dnnf>
-// Weighted model counter for dDNNF
+// Abstract class Counter__<DNNF>
+// Weighted model counter for DNNF
 // Literals weights: even index (positive literal) odd index (negative literal)
 // -----------------------------------------------------------------------------
 
 template<>
-class Counter__<language::dnnf>: public Engine__<language::dnnf, query::ct>
+class Counter__<DNNF>: public Engine__<DNNF, CT>
 {
 	public:                 // Traits
-		using base_type = Engine__<language::dnnf, query::ct>;
+		using base_type = Engine__<DNNF, CT>;
 
 	protected:              // Attributes
 		using base_type::circuit__;
@@ -27,7 +27,7 @@ class Counter__<language::dnnf>: public Engine__<language::dnnf, query::ct>
 		using base_type::n_variables__;
 
 	public:                 // Constructors & Destructor
-		Counter__(const Dnnf& circuit) :
+		Counter__(const Circuit<DNNF>& circuit) :
 			base_type(circuit)
 		{
 		}
@@ -83,17 +83,17 @@ class Counter__<language::dnnf>: public Engine__<language::dnnf, query::ct>
 };
 
 // -----------------------------------------------------------------------------
-// Final class Counter<language::dnnf>
+// Final class Counter<DNNF>
 // -----------------------------------------------------------------------------
 
 template<>
-class Counter<language::dnnf> final : public Counter__<language::dnnf>
+class Counter<DNNF> final : public Counter__<DNNF>
 {
 	public:                 // Traits
-		using base_type = Counter__<language::dnnf>;
+		using base_type = Counter__<DNNF>;
 
 	public:                 // Constructors & Destructor
-		Counter(const Dnnf& circuit) :
+		Counter(const Circuit<DNNF>& circuit) :
 			base_type(circuit)
 		{
 		}

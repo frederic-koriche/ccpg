@@ -9,16 +9,16 @@
 #include "dnnf_circuit__.hpp"
 
 // -----------------------------------------------------------------------------
-// Abstract class Optimizer__<language::dnnf, Q>
+// Abstract class Optimizer__<DNNF, Q>
 // Linear assignment optimizer for dDNNF
 // Literals weights: even index (positive literal) odd index (negative literal)
 // -----------------------------------------------------------------------------
 
-template<query Q>
-class Optimizer__<language::dnnf, Q>: public Engine__<language::dnnf, Q>
+template<query_t Q>
+class Optimizer__<DNNF, Q>: public Engine__<DNNF, Q>
 {
 	public:                 // Traits
-		using base_type = Engine__<language::dnnf, Q>;
+		using base_type = Engine__<DNNF, Q>;
 		using Children = arma::SpSubview<uword>;
 
 	protected:              // Attributes
@@ -31,7 +31,7 @@ class Optimizer__<language::dnnf, Q>: public Engine__<language::dnnf, Q>
 		dvec node_weights__;
 
 	public:                 // Constructors & Destructor
-		Optimizer__(const Dnnf& circuit) :
+		Optimizer__(const Circuit<DNNF>& circuit) :
 			base_type(circuit),
 			objective__(circuit.n_literals()),
 			edge_weights__(circuit.n_nodes(), circuit.n_nodes()),
@@ -179,17 +179,17 @@ class Optimizer__<language::dnnf, Q>: public Engine__<language::dnnf, Q>
 };
 
 // -----------------------------------------------------------------------------
-// Final class Optimizer<language::dnnf, Q>
+// Final class Optimizer<DNNF, Q>
 // -----------------------------------------------------------------------------
 
-template<query Q>
-class Optimizer<language::dnnf, Q> final : public Optimizer__<language::dnnf, Q>
+template<query_t Q>
+class Optimizer<DNNF, Q> final : public Optimizer__<DNNF, Q>
 {
 	public:                  // Traits
-		using base_type = Optimizer__<language::dnnf, Q>;
+		using base_type = Optimizer__<DNNF, Q>;
 
 	public:                 // Constructors & Destructor
-		Optimizer(const Dnnf& circuit) :
+		Optimizer(const Circuit<DNNF>& circuit) :
 			base_type(circuit)
 		{
 		}

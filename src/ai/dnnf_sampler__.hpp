@@ -9,17 +9,17 @@
 #include "dnnf_counter__.hpp"
 
 // -----------------------------------------------------------------------------
-// Abstract class Sampler__<language::dnnf>
+// Abstract class Sampler__<DNNF>
 // Weighted assignment sampler for DNNF
 // Literals weights: even index (positive literal) odd index (negative literal)
 // -----------------------------------------------------------------------------
 
 template<>
-class Sampler__<language::dnnf>: public Counter__<language::dnnf>
+class Sampler__<DNNF>: public Counter__<DNNF>
 {
 	public:
 		// Traits
-		using base_type = Counter__<language::dnnf>;
+		using base_type = Counter__<DNNF>;
 		using Children = arma::SpSubview<uword>;
 
 	protected:
@@ -34,7 +34,7 @@ class Sampler__<language::dnnf>: public Counter__<language::dnnf>
 
 	public:
 		// Constructors & Destructor
-		Sampler__(const Dnnf& circuit) :
+		Sampler__(const Circuit<DNNF>& circuit) :
 			base_type(circuit),
 			generator__(nullptr),
 			distribution__(circuit.n_literals()),
@@ -222,19 +222,19 @@ class Sampler__<language::dnnf>: public Counter__<language::dnnf>
 };
 
 // -----------------------------------------------------------------------------
-// Final class Sampler<language::dnnf>
+// Final class Sampler<DNNF>
 // -----------------------------------------------------------------------------
 
 template<>
-class Sampler<language::dnnf> final: public Sampler__<language::dnnf>
+class Sampler<DNNF> final: public Sampler__<DNNF>
 {
 	public:
 		// Traits
-		using base_type = Sampler__<language::dnnf>;
+		using base_type = Sampler__<DNNF>;
 
 	public:
 		// Constructors & Destructor
-		Sampler(const Dnnf& circuit) :
+		Sampler(const Circuit<DNNF>& circuit) :
 			base_type(circuit)
 		{
 		}

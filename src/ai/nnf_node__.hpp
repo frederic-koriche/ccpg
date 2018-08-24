@@ -7,12 +7,11 @@
 #define NNF_NODE__
 
 // -----------------------------------------------------------------------------
-// Class Node<language::nnf>
+// Class Node
 // Node descriptor of an NNF Circuit
 // -----------------------------------------------------------------------------
 
-template<>
-class Node<language::nnf>
+class Node
 {
 	public:                 // Attributes
 		bool sgn;
@@ -63,9 +62,45 @@ class Node<language::nnf>
 		}
 
 	public:                 // IO
-		friend ostream & operator <<(ostream & output, const Node<language::nnf>& node)
+		friend ostream & operator <<(ostream & output, const Node& node)
 		{
-			print(output, node);
+			output << "[type]: ";
+			switch(node.type)
+			{
+			case 'a':
+				output << "and  ";
+				break;
+
+			case 'd':
+				output << "dec  ";
+				break;
+
+			case 'f':
+				output << "false";
+				break;
+
+			case 'l':
+				output << "lit  ";
+				break;
+
+			case 'o':
+				output << "or   ";
+				break;
+
+			case 't':
+				output << "true ";
+				break;
+			}
+
+			output << " [sgn]: ";
+			if(node.sgn)
+				output << "+1";
+			else
+				output << "-1";
+
+			output << " [vars]: ";
+			for(uword x = 0; x < node.vars.n_elem; ++x)
+				output << node.vars[x] << " ";
 			return output;
 		}
 };

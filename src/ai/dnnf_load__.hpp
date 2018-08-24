@@ -12,8 +12,8 @@
 // Load operations
 // -----------------------------------------------------------------------------
 
-template<language L>
-bool load_nnf_and_node(Circuit<L>& circuit, const std::string& buffer, const uword node)
+template<circuit_t C>
+bool load_nnf_and_node(Circuit<C>& circuit, const std::string& buffer, const uword node)
 {
 	//cout << io::info("reading and node") << "[" << node << "]: " << buffer << endl;
 
@@ -61,8 +61,8 @@ bool load_nnf_and_node(Circuit<L>& circuit, const std::string& buffer, const uwo
 	return 1;
 }
 
-template<language L>
-bool load_nnf_or_node(Circuit<L>& circuit, const std::string& buffer, const uword node)
+template<circuit_t C>
+bool load_nnf_or_node(Circuit<C>& circuit, const std::string& buffer, const uword node)
 {
 	//cout << io::info("reading or node") << "[" << node << "]: " << buffer << endl;
 
@@ -92,8 +92,8 @@ bool load_nnf_or_node(Circuit<L>& circuit, const std::string& buffer, const uwor
 	return 1;
 }
 
-template<language L>
-bool load_nnf_literal(Circuit<L>& circuit, const std::string& buffer, const uword node)
+template<circuit_t C>
+bool load_nnf_literal(Circuit<C>& circuit, const std::string& buffer, const uword node)
 {
 	//cout << io::info("reading literal") << "[" << node << "]: " << buffer << endl;
 
@@ -123,7 +123,7 @@ bool load_nnf_header(uword& n_edges, uword& n_nodes, uword& n_variables, const s
 {
 	//cout << io::info("reading header") << buffer << endl;
 
-	std::regex pattern_header {R"(^(\s*nnf|NNF)(\s+\d+)(\s+\d+)(\s+\d+))"};
+	std::regex pattern_header {R"(^(\s*nnf|Nnf)(\s+\d+)(\s+\d+)(\s+\d+))"};
 	std::smatch match;
 	if(!std::regex_match(buffer, match, pattern_header))
 	{
@@ -138,8 +138,8 @@ bool load_nnf_header(uword& n_edges, uword& n_nodes, uword& n_variables, const s
 	return 1;
 }
 
-template<language L>
-bool load_nnf_file(Circuit<L>& circuit, const std::string& dataset_name)
+template<circuit_t C>
+bool load_nnf_file(Circuit<C>& circuit, const std::string& dataset_name)
 {
 	cout << io::info("loading file") << dataset_name << endl;
 
@@ -168,7 +168,7 @@ bool load_nnf_file(Circuit<L>& circuit, const std::string& dataset_name)
 			{
 				is_reading = load_nnf_header(n_edges, n_nodes, n_variables, buffer);
 				if(is_reading)
-					circuit = Circuit<L>(n_nodes, n_variables);
+					circuit = Circuit<C>(n_nodes, n_variables);
 				is_first = false;
 			}
 			else

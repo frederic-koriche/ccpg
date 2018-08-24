@@ -9,21 +9,21 @@
 #include "dnnf_circuit__.hpp"
 
 // -----------------------------------------------------------------------------
-// Abstract class Engine__<language::dnnf,Q>
+// Abstract class Engine__<DNNF,Q>
 // Inference engine for dDNNF using the push-weights dynamic programming scheme
 // -----------------------------------------------------------------------------
 
-template<query Q>
-class Engine__<language::dnnf,Q>
+template<query_t Q>
+class Engine__<DNNF,Q>
 {
 	protected:              // Attributes
-		const Circuit<language::dnnf>& circuit__;
+		const Circuit<DNNF>& circuit__;
 		const uword n_literals__;
 		const uword n_nodes__;
 		const uword n_variables__;
 
 	public:                 // Constructors & Destructor
-		Engine__(const Dnnf& circuit) :
+		Engine__(const Circuit<DNNF>& circuit) :
 			circuit__(circuit),
 			n_literals__(circuit.n_literals()),
 			n_nodes__(circuit.n_nodes()),
@@ -81,7 +81,7 @@ class Engine__<language::dnnf,Q>
 		                           const uword index,
 		                           traits::max)
 		{
-			push_true_node(node_weights, index, traits::to_query<query::min>());
+			push_true_node(node_weights, index, traits::to_query<MIN>());
 		}
 
 		inline void push_true_node(dvec& node_weights, const uword index)
@@ -126,7 +126,7 @@ class Engine__<language::dnnf,Q>
 		                          const uword index,
 		                          traits::max)
 		{
-			push_and_node(node_weights, index, traits::to_query<query::min>());
+			push_and_node(node_weights, index, traits::to_query<MIN>());
 		}
 
 		inline void push_and_node(dvec& node_weights, const uword index)
@@ -258,7 +258,7 @@ class Engine__<language::dnnf,Q>
 		                                const dvec& objective,
 		                                traits::max)
 		{
-			return get_weight(assignment,objective,traits::to_query<query::min>());
+			return get_weight(assignment,objective,traits::to_query<MIN>());
 		}
 
 		inline static double get_weight(const dvec& assignment,
