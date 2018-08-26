@@ -3,8 +3,8 @@
 // dnnf_engine__.hpp
 // -----------------------------------------------------------------------------
 
-#ifndef DNNF_ENGINE__
-#define DNNF_ENGINE__
+#ifndef DNNF_ENGINE__HPP
+#define DNNF_ENGINE__HPP
 
 #include "dnnf_circuit__.hpp"
 

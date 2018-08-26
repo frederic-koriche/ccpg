@@ -3,8 +3,8 @@
 // regularizer_l2_.hpp
 // -----------------------------------------------------------------------------
 
-#ifndef REGULARIZER_L2__
-#define REGULARIZER_L2__
+#ifndef REGULARIZER_L2__HPP
+#define REGULARIZER_L2__HPP
 
 // -----------------------------------------------------------------------------
 // Regularizer<L2>

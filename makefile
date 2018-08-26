@@ -55,7 +55,7 @@ CPP_FILES = $(wildcard src/*.cpp)
 
 OBJ_FILES := $(patsubst src/%.cpp, obj/%.o, $(CPP_FILES))
 
-TARGET = application
+TARGET = oco
 
 all: $(TARGET)
 
@@ -74,7 +74,7 @@ $(OBJ_FILES): $(CPP_FILES)
 	@echo " "
 
 clean:
-	rm -rf obj/*.o application
+	rm -rf obj/*.o oco
 
 indent:
 	astyle --style=allman --indent-switches src/*.cpp src/*.hpp

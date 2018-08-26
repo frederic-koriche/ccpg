@@ -5,8 +5,8 @@
 //
 // -----------------------------------------------------------------------------
 
-#ifndef ENUMS
-#define ENUMS
+#ifndef ENUMS_HPP
+#define ENUMS_HPP
 
 #include "types.hpp"
 

@@ -3,8 +3,8 @@
 // nnf_literal__.hpp
 // -----------------------------------------------------------------------------
 
-#ifndef NNF_LITERAL__
-#define NNF_LITERAL__
+#ifndef NNF_LITERAL__HPP
+#define NNF_LITERAL__HPP
 
 // -----------------------------------------------------------------------------
 // Class Literal

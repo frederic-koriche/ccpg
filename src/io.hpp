@@ -5,13 +5,14 @@
 //
 // -----------------------------------------------------------------------------
 
-#ifndef IO
-#define IO
+#ifndef IO_HPP
+#define IO_HPP
 
 #include "traits.hpp"
 
 namespace io
 {
+	// String color
 	enum color
 	{
 		black = 30,
@@ -24,7 +25,7 @@ namespace io
 		white = 39
 	};
 
-// String emphasis
+	// String emphasis
 	enum emphasis
 	{
 		normal = 0,
@@ -32,7 +33,24 @@ namespace io
 		underline = 4
 	};
 
-// String punctuation
+	// Input arguments
+	enum arg
+	{
+		circuit,
+		feedback,
+		learner,
+		trials,
+		projections
+	};
+
+	// Output plots
+	enum plot
+	{
+		regrets,
+		runtimes
+	};
+
+	// String punctuation
 	enum punctuation
 	{
 		blank = 0,

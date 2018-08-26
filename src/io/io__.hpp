@@ -5,8 +5,8 @@
 //
 // -----------------------------------------------------------------------------
 
-#ifndef IO__
-#define IO__
+#ifndef IO__HPP
+#define IO__HPP
 
 // -----------------------------------------------------------------------------
 // STD Formating
@@ -316,6 +316,28 @@ namespace io
 		out.setf(std::ios::left);
 		out.setf(std::ios::showpos);
 		out.precision(4);
+	}
+}
+
+// -----------------------------------------------------------------------------
+// String management
+// -----------------------------------------------------------------------------
+
+namespace io
+{
+	std::string find_extension(const std::string& filename)
+	{
+		return filename.substr(filename.find_last_of(".") + 1);
+	}
+
+	bool is_member(const std::string &value, const std::vector<string> &array)
+	{
+	    return std::find(array.begin(), array.end(), value) != array.end();
+	}
+
+	bool is_number(const std::string& str)
+	{
+		return !str.empty() && std::find_if(str.begin(), str.end(), [](char c) {return !std::isdigit(c);}) == str.end();
 	}
 }
 

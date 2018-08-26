@@ -3,8 +3,8 @@
 // learner_semibandit_exp__.hpp
 // -----------------------------------------------------------------------------
 
-#ifndef ML_LEARNER_SEMIBANDIT_EXP__
-#define ML_LEARNER_SEMIBANDIT_EXP__
+#ifndef ML_LEARNER_SEMIBANDIT_EXP__HPP
+#define ML_LEARNER_SEMIBANDIT_EXP__HPP
 
 // -----------------------------------------------------------------------------
 // Learner<L, feedback::semibandit, strategy::exp>

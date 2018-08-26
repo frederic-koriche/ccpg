@@ -3,8 +3,8 @@
 // dnnf_circuit__.hpp
 // -----------------------------------------------------------------------------
 
-#ifndef DNNF_CIRCUIT__
-#define DNNF_CIRCUIT__
+#ifndef DNNF_CIRCUIT__HPP
+#define DNNF_CIRCUIT__HPP
 
 #include "nnf_circuit__.hpp"
 #include "dnnf_load__.hpp"

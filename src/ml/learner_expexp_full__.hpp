@@ -3,8 +3,8 @@
 // learner_full_exp__.hpp
 // -----------------------------------------------------------------------------
 
-#ifndef LEARNER_FULL_EXP__
-#define LEARNER_FULL_EXP__
+#ifndef LEARNER_FULL_EXP__HPP
+#define LEARNER_FULL_EXP__HPP
 
 // -----------------------------------------------------------------------------
 // Class Learner<circuit_t C, EXPEXP, FULL>

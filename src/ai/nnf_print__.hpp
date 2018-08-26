@@ -3,8 +3,8 @@
 // nnf_print__.hpp
 // -----------------------------------------------------------------------------
 
-#ifndef NNF_PRINT__
-#define NNF_PRINT__
+#ifndef NNF_PRINT__HPP
+#define NNF_PRINT__HPP
 
 // -----------------------------------------------------------------------------
 // Print Circuits

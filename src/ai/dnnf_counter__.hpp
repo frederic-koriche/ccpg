@@ -3,8 +3,8 @@
 // dnnf_counter__.hpp
 // -----------------------------------------------------------------------------
 
-#ifndef DNNF_COUNTER__
-#define DNNF_COUNTER__
+#ifndef DNNF_COUNTER__HPP
+#define DNNF_COUNTER__HPP
 
 #include "dnnf_engine__.hpp"
 

@@ -3,8 +3,8 @@
 // dnnf_optimizer_.hpp
 // -----------------------------------------------------------------------------
 
-#ifndef DNNF_OPTIMIZER__
-#define DNNF_OPTIMIZER__
+#ifndef DNNF_OPTIMIZER__HPP
+#define DNNF_OPTIMIZER__HPP
 
 #include "dnnf_circuit__.hpp"
 

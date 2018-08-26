@@ -3,8 +3,8 @@
 // projector_pcg__.hpp
 // -----------------------------------------------------------------------------
 
-#ifndef PROJECtOR_PCG__
-#define PROJECtOR_PCG__
+#ifndef PROJECTOR_PCG__HPP
+#define PROJECTOR_PCG__HPP
 
 // -----------------------------------------------------------------------------
 // Projector__<circuit_t C, PCG, distance_t D>
@@ -65,17 +65,12 @@ class Projector<C,PCG,D>
 			double l = (double) n_literals__;
 			double a = 8.0 * l * beta / alpha;
 			double b = log( beta * l) - log(2.0 * accuracy);
-			return (uword)(a * b);
-		}
-
-		// Bregman decomposition
-		inline dvec decompose(const dvec& distribution, const dmat& assignments)
-		{
-			std::random_device rd;
-			mte generator(rd());
-			std::discrete_distribution<int> discrete(distribution.begin(),distribution.end());
-			uword index = (uword) discrete(generator);
-			return assignments.col(index);
+			uword n_trials = (uword) a * b;
+			if(n_trials == 0)
+			 	return 1;
+			if(n_trials > max_trials__)
+				return max_trials__;
+			return n_trials;
 		}
 
 		// Find stepsize via line search
@@ -98,7 +93,7 @@ class Projector<C,PCG,D>
 			return left;
 		}
 
-		// Bregman projection
+		// Bregman projection via PCG
 		void project(dvec& distribution, dmat& assignments, const dvec& weights, const uword n_trials)
 		{
 			Sampler<C> sample(circuit__);
@@ -135,20 +130,27 @@ class Projector<C,PCG,D>
 			}
 		}
 
+		// Sample from Bregman decomposition
+		inline dvec sample(const dvec& distribution, const dmat& assignments)
+		{
+			std::random_device rd;
+			mte generator(rd());
+			std::discrete_distribution<int> discrete(distribution.begin(),distribution.end());
+			uword index = (uword) discrete(generator);
+			return assignments.col(index);
+		}
 
 	public:
 		inline dvec operator()(const dvec& weights, const double& accuracy)
 		{
 			uword n_trials = estimate(accuracy, regularizer__.alpha(), regularizer__.beta());
-			if(n_trials == 0) n_trials = 1;
-			if(n_trials > max_trials__) n_trials = max_trials__;
 			cout << io::info("estimate trials") << n_trials << endl;
 
 			dvec distribution(n_trials, arma::fill::zeros);
 			dmat assignments(n_literals__, n_trials, arma::fill::zeros);
 
 			project(distribution, assignments, weights, n_trials);
-			return decompose(distribution, assignments);
+			return sample(distribution, assignments);
 		}
 };
 

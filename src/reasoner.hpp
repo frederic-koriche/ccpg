@@ -5,8 +5,8 @@
 //
 // -----------------------------------------------------------------------------
 
-#ifndef REASONER
-#define REASONER
+#ifndef REASONER_HPP
+#define REASONER_HPP
 
 #include "io.hpp"
 

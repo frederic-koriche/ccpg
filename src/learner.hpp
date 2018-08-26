@@ -5,8 +5,8 @@
 //
 // -----------------------------------------------------------------------------
 
-#ifndef LEARNER
-#define LEARNER
+#ifndef LEARNER_HPP
+#define LEARNER_HPP
 
 #include "reasoner.hpp"
 

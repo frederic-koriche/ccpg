@@ -3,8 +3,8 @@
 // regularizer_ure__.hpp
 // -----------------------------------------------------------------------------
 
-#ifndef REGULARIZER_URE__
-#define REGULARIZER_URE__
+#ifndef REGULARIZER_URE__HPP
+#define REGULARIZER_URE__HPP
 
 // -----------------------------------------------------------------------------
 // Regularizer<URE>

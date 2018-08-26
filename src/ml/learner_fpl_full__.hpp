@@ -3,8 +3,8 @@
 // learner_full_fpl__.hpp
 // -----------------------------------------------------------------------------
 
-#ifndef LEARNER_FULL_FPL__
-#define LEARNER_FULL_FPL__
+#ifndef LEARNER_FULL_FPL__HPP
+#define LEARNER_FULL_FPL__HPP
 
 // -----------------------------------------------------------------------------
 // Class Learner<circuit_t C, FPL, FULL>

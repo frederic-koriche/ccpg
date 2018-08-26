@@ -3,8 +3,8 @@
 // dnnf_load__.hpp
 // -----------------------------------------------------------------------------
 
-#ifndef DNNF_LOAD__
-#define DNNF_LOAD__
+#ifndef DNNF_LOAD__HPP
+#define DNNF_LOAD__HPP
 
 #include "../fn/set_ops__.hpp"
 

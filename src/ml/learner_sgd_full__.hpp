@@ -3,8 +3,8 @@
 // learner_full_l2__.hpp
 // -----------------------------------------------------------------------------
 
-#ifndef LEARNER_FULL_L2__
-#define LEARNER_FULL_L2__
+#ifndef LEARNER_FULL_L2__HPP
+#define LEARNER_FULL_L2__HPP
 
 // -----------------------------------------------------------------------------
 // Class Learner<circuit_t C, SGD, FULL>
@@ -35,18 +35,9 @@ class Learner<C, SGD, FULL>
 		{
 		}
 
-	protected:
-		inline void update_distribution(dvec& distribution, const dvec& cum_loss, const double& eta)
+		inline void update_weights(dvec& distribution, const dvec& loss, const double& eta)
 		{
-			for(uword x = 0; x < n_literals__; x++)
-				distribution[x] = exp(-eta * cum_loss[x]);
-		}
-
-		inline void update_hyperparameters(double& epsilon, double& eta, double& gamma, const uword& trial)
-		{
-			eta = 1.0 / sqrt((double) trial);
-			gamma = (double) n_literals__ / 2.0;
-			epsilon = gamma / ((double) trial);
+			distribution -= eta * loss;
 		}
 
 	public:
@@ -57,8 +48,7 @@ class Learner<C, SGD, FULL>
 
 			Regularizer<L2> reg;
 			Projector<DNNF,PCG,L2> project(circuit__,reg,100);
-			dvec distribution(n_literals__, arma::fill::ones);
-			dvec cum_loss(n_literals__, arma::fill::zeros);
+			dvec weights(n_literals__, arma::fill::zeros);
 			double cum_regret = 0;
 			double epsilon = 0;
 			double eta = 0;
@@ -68,26 +58,24 @@ class Learner<C, SGD, FULL>
 			for(uword trial = 1; trial <= n_trials__; trial++)
 			{
 				// Update hyperparameters
-				update_hyperparameters(epsilon, eta, gamma, trial);
+				eta = 1.0 / sqrt((double) trial);
+				gamma = (double) n_literals__ / 2.0;
+				epsilon = gamma / ((double) trial);
 				cout << io::info("hyperparameters") << "[eta] " << eta << " [gamma] " << gamma << " [epsilon] " << epsilon << endl;
 
 				// Project and decompose
-				dvec prediction = project(distribution, epsilon);
+				dvec prediction = project(weights, epsilon);
 
 				// Get response
-				dvec objective = environment__.response(trial);
-				//cout << io::info("Objective") << trial << endl << objective << endl;
-				cout << io::info("Loss") << trial << " [loss]: " << arma::dot(prediction, objective) << endl;
+				dvec feedback = environment__.response(trial);
+				//cout << io::info("Objective") << trial << endl << feedback << endl;
+				cout << io::info("Loss") << trial << " [loss]: " << arma::dot(prediction, feedback) << endl;
 				double regret = environment__.regret(prediction, trial);
-				cout << io::info("Regret") << trial << " [reg]: " << regret << endl;
 				cum_regret += regret;
+				cout << io::info("Regret") << trial << " [regret]: " << cum_regret / (double) trial << endl;
 
-				// Update cumulative loss
-				cum_loss += objective;
-
-				// Update distribution
-				update_distribution(distribution, cum_loss, eta);
-				//cout << io::info("Updating distribution") << trial << endl << distribution << endl;
+				// Update weights
+				weights -= eta * feedback;
 			}
 			cum_regret /= (double) n_trials__;
 			cout << io::info("Cumulative regret") << cum_regret << endl;

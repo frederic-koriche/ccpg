@@ -3,8 +3,8 @@
 // nnf_circuit__.hpp
 // -----------------------------------------------------------------------------
 
-#ifndef NNF_CIRCUIT__
-#define NNF_CIRCUIT__
+#ifndef NNF_CIRCUIT__HPP
+#define NNF_CIRCUIT__HPP
 
 #include "nnf_literal__.hpp"
 #include "nnf_node__.hpp"

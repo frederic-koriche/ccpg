@@ -3,8 +3,8 @@
 // dnnf_sampler__.hpp
 // -----------------------------------------------------------------------------
 
-#ifndef DNNF_SAMPLER__
-#define DNNF_SAMPLER__
+#ifndef DNNF_SAMPLER__HPP
+#define DNNF_SAMPLER__HPP
 
 #include "dnnf_counter__.hpp"
 

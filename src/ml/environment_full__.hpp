@@ -3,8 +3,8 @@
 // environment_full__.hpp
 // -----------------------------------------------------------------------------
 
-#ifndef ENVIRONMENT_FULL__
-#define ENVIRONMENT_FULL__
+#ifndef ENVIRONMENT_FULL__HPP
+#define ENVIRONMENT_FULL__HPP
 
 // -----------------------------------------------------------------------------
 // Class Environment<FULL>

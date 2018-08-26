@@ -3,8 +3,8 @@
 // dnnf_marginalizer__.hpp
 // -----------------------------------------------------------------------------
 
-#ifndef DNNF_MARGINALIZER__
-#define DNNF_MARGINALIZER__
+#ifndef DNNF_MARGINALIZER__HPP
+#define DNNF_MARGINALIZER__HPP
 
 #include "dnnf_counter__.hpp"
 
